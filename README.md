@@ -15,6 +15,8 @@ A local code repository Agent Harness for constrained software development tasks
 - Checkpoint / Resume and Run Trace
 - Evaluated on 50 local repository tasks with 76% one-shot usable code rate
 
+Repository: https://github.com/realme-max/pico-agent-harness
+
 ### WeldAgent: Multi-stage Agent Orchestration for Weld Detection
 
 WeldAgent is a multi-stage Agent orchestration system for robotic welding scenarios. It supports point-cloud-based weld detection, validation, failure diagnosis, evidence tracking, report generation, and safe LLM-assisted QA.
