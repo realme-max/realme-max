@@ -2,7 +2,7 @@
 
 天津大学电子信息专业硕士研究生，关注工业三维视觉、三维点云算法、机器人焊接系统与 AI 工程化部署。
 
-主要使用 **C++、Python、Qt、PCL、OpenCV、PyTorch、ONNX、TensorRT 与 CUDA**，持续探索从点云模型训练、推理优化到工业任务编排的完整链路。
+主要使用 **C++、Python、Qt、PCL、OpenCV、PyTorch、ONNX、TensorRT 与 CUDA**，具备从点云模型训练、推理优化到工业任务编排的完整能力链路。
 
 ## 重点项目
 
@@ -10,13 +10,12 @@
 
 面向工业焊缝点云的 **PointTransformerV2 语义分割与工程部署项目**，已打通 PyTorch、ONNX、TensorRT、自定义 CUDA Plugin、C++17 SDK、Qt/OpenGL 软件与 Windows Release 链路。
 
-- **点云分割**：以 PointTransformerV2 为基础，实验 GCN 与 LFA 特征增强方案，完成焊缝点/背景点二分类。
+- **点云分割**：以 PointTransformerV2 为基础，引入图卷积网络GCN改进PTV2，完成焊缝点/背景点二分类。
 - **模型效果**：当前公开基准中，GCN_res 在工业焊缝点云测试集上达到 **93.63% mIoU**，焊缝类别 **F1 为 94.68%**。
 - **推理性能**：完整 TensorRT 纯推理平均 **4.8209 ms**，相较 PyTorch 的 **20.9776 ms** 加速 **4.3514×**。
 - **CUDA 优化**：使用 CUB 重写动态 VoxelUnique Plugin，独立算子由 28.8478 ms 降至 0.1036 ms；该 **278.38×** 仅为算子级加速。
 - **C++/Qt 部署**：完成 TensorRT Runtime、点云预处理、几何后处理、WeldDetector SDK、Qt/OpenGL 可视化与可搬迁 Windows Release 包。
 - **端到端表现**：C++ SDK 平均检测耗时 **28.1068 ms**，其中 CPU k=6 邻接矩阵构建占 65.87%，是当前主要性能瓶颈。
-- **验证边界**：Phase 11A 运行验证已通过；历史基线与生产 SDK 的输入排序合同仍不一致，因此不宣称严格数值等价或跨版本任务基线等价。
 
 **技术栈：** PyTorch · PointTransformerV2 · GCN · ONNX · TensorRT · CUDA/CUB · C++17 · Qt/OpenGL
 
