@@ -8,15 +8,17 @@
 
 ### [PTV2-WeldSeg-Deployment](https://github.com/realme-max/PTV2-WeldSeg-Deployment)
 
-面向工业焊缝点云的 **PointTransformerV2 语义分割与部署项目**，覆盖模型训练评估、特征增强实验、ONNX 图验证和 TensorRT 推理基线验证。
+面向工业焊缝点云的 **PointTransformerV2 语义分割与工程部署项目**，已打通 PyTorch、ONNX、TensorRT、自定义 CUDA Plugin、C++17 SDK、Qt/OpenGL 软件与 Windows Release 链路。
 
 - **点云分割**：以 PointTransformerV2 为基础，实验 GCN 与 LFA 特征增强方案，完成焊缝点/背景点二分类。
 - **模型效果**：当前公开基准中，GCN_res 在工业焊缝点云测试集上达到 **93.63% mIoU**，焊缝类别 **F1 为 94.68%**。
-- **部署优化**：完成固定输入接口、体素池化标准算子替换、ONNX 部署图与数值对齐验证。
-- **TensorRT 验证**：已建立严格 FP32 推理基线；18 个样本的标签与任务指标全部一致，并通过 10/10 冷启动和 5000/5000 次持续推理测试。该基线为任务结果等价，并非严格数值等价。
-- **工程边界**：当前 TensorRT 入口已完成验证，**C++ 推理仍在推进**；数据集、权重、引擎与生成二进制未提交到仓库。
+- **推理性能**：完整 TensorRT 纯推理平均 **4.8209 ms**，相较 PyTorch 的 **20.9776 ms** 加速 **4.3514×**。
+- **CUDA 优化**：使用 CUB 重写动态 VoxelUnique Plugin，独立算子由 28.8478 ms 降至 0.1036 ms；该 **278.38×** 仅为算子级加速。
+- **C++/Qt 部署**：完成 TensorRT Runtime、点云预处理、几何后处理、WeldDetector SDK、Qt/OpenGL 可视化与可搬迁 Windows Release 包。
+- **端到端表现**：C++ SDK 平均检测耗时 **28.1068 ms**，其中 CPU k=6 邻接矩阵构建占 65.87%，是当前主要性能瓶颈。
+- **验证边界**：Phase 11A 运行验证已通过；历史基线与生产 SDK 的输入排序合同仍不一致，因此不宣称严格数值等价或跨版本任务基线等价。
 
-**技术栈：** PyTorch · PointTransformerV2 · GCN · ONNX · TensorRT · CUDA · C++
+**技术栈：** PyTorch · PointTransformerV2 · GCN · ONNX · TensorRT · CUDA/CUB · C++17 · Qt/OpenGL
 
 [查看项目与部署文档 →](https://github.com/realme-max/PTV2-WeldSeg-Deployment)
 
