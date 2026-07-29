@@ -1,30 +1,46 @@
-# Hi, I'm Feng Jiarui 👋
+# 你好，我是冯嘉睿 👋
 
-I'm currently focusing on Agent engineering, LLM applications, local code repository agents, and industrial vision systems.
+天津大学电子信息专业硕士研究生，关注工业三维视觉、三维点云算法、机器人焊接系统与 AI 工程化部署。
 
-## Featured Projects
+主要使用 **C++、Python、Qt、PCL、OpenCV、PyTorch、ONNX、TensorRT 与 CUDA**，持续探索从点云模型训练、推理优化到工业任务编排的完整链路。
 
-### Pico: Local Code Repository Agent Harness
+## 重点项目
 
-A local code repository Agent Harness for constrained software development tasks.
+### [PTV2-WeldSeg-Deployment](https://github.com/realme-max/PTV2-WeldSeg-Deployment)
 
-- Agent Runtime and CLI interaction
-- Tool Calling for file read/search/edit and command execution
-- Context Management and budget trimming
-- Layered Memory and relevant memory retrieval
-- Checkpoint / Resume and Run Trace
-- Evaluated on 50 local repository tasks with 76% one-shot usable code rate
+面向工业焊缝点云的 **PointTransformerV2 语义分割与部署项目**，覆盖模型训练评估、特征增强实验、ONNX 图验证和 TensorRT 推理基线验证。
 
-Repository: https://github.com/realme-max/pico-agent-harness
+- **点云分割**：以 PointTransformerV2 为基础，实验 GCN 与 LFA 特征增强方案，完成焊缝点/背景点二分类。
+- **模型效果**：当前公开基准中，GCN_res 在工业焊缝点云测试集上达到 **93.63% mIoU**，焊缝类别 **F1 为 94.68%**。
+- **部署优化**：完成固定输入接口、体素池化标准算子替换、ONNX 部署图与数值对齐验证。
+- **TensorRT 验证**：已建立严格 FP32 推理基线；18 个样本的标签与任务指标全部一致，并通过 10/10 冷启动和 5000/5000 次持续推理测试。该基线为任务结果等价，并非严格数值等价。
+- **工程边界**：当前 TensorRT 入口已完成验证，**C++ 推理仍在推进**；数据集、权重、引擎与生成二进制未提交到仓库。
 
-### WeldAgent: Multi-stage Agent Orchestration for Weld Detection
+**技术栈：** PyTorch · PointTransformerV2 · GCN · ONNX · TensorRT · CUDA · C++
 
-WeldAgent is a multi-stage Agent orchestration system for robotic welding scenarios. It supports point-cloud-based weld detection, validation, failure diagnosis, evidence tracking, report generation, and safe LLM-assisted QA.
+[查看项目与部署文档 →](https://github.com/realme-max/PTV2-WeldSeg-Deployment)
 
-- LangGraph-style State-Node-Edge workflow
-- Failure Diagnosis Agent and Review Agent
-- Evidence Pack and run trace
-- Evidence-first LLM ReAct guard
-- Read-only tool calling and robot execution isolation
+---
 
-Repository: https://github.com/realme-max/weld_agent
+### [weld_agent](https://github.com/realme-max/weld_agent)
+
+面向机器人焊接引导场景的 **多阶段 Agent 编排系统**。项目将点云检测、结果校验、异常诊断、可信评审、证据追踪、问答与报告生成组织为可复现、可审计的任务流程。
+
+- **流程编排**：采用 State-Node-Edge 状态图设计，并提供可选 LangGraph 运行入口；通过统一任务状态、条件路由和安全门控制各阶段流转。
+- **工业工具接入**：通过封装调用既有 Qt/C++ 焊缝检测 CLI、几何算法与 PointNet++ 预测工具，不重写原有核心检测算法。
+- **可信 Agent**：实现 Failure Diagnosis、Review/Trust Score、Evidence Pack、只读证据工具选择、本地词法 RAG、任务记忆和实验报告等模块。
+- **可追溯性**：保存任务计划、中间 JSON、工具调用、状态图轨迹、审查结果、可视化页面和最终报告，支持单任务复查与批量回放。
+- **安全边界**：大模型能力默认关闭；可选 LLM ReAct 必须先读取证据。系统不发送机器人指令、不执行真实逆解或轨迹规划，人工确认也仅允许恢复软件流程。
+
+**技术栈：** Python · LangGraph/状态图 · Qt/C++ 工具封装 · PointNet++ · Plotly · 本地 RAG · MCP 只读接口
+
+[查看项目与运行说明 →](https://github.com/realme-max/weld_agent)
+
+## 能力主线
+
+- **工业三维视觉**：点云预处理、语义分割、几何特征提取与结果验证。
+- **模型工程化部署**：PyTorch 模型导出、ONNX 图检查、TensorRT 插件与推理基线验证。
+- **机器人焊接软件**：Qt/C++ 工具接入、任务状态管理、异常处理、结果审查与报告生成。
+- **Agent 工程**：状态图编排、只读工具调用、证据优先问答、人工检查点和全流程追踪。
+
+> 两个仓库目前相互独立：PTV2-WeldSeg-Deployment 聚焦点云分割与推理部署，weld_agent 聚焦焊接任务编排与可信证据链。
