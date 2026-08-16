@@ -37,11 +37,30 @@
 
 [查看项目与运行说明 →](https://github.com/realme-max/weld_agent)
 
+---
+
+### [IndustrialAIServiceFramework](https://github.com/realme-max/IndustrialAIServiceFramework)
+
+面向工业 AI 应用的 **C++17 高性能服务框架**。项目把独立点云算法封装为可通过浏览器和 HTTP 调用的异步任务服务，打通网络接入、任务调度、外部进程隔离、Artifact 管理、结果下载与 WebGL2 三维展示。
+
+- **高性能服务运行时**：实现 Linux `epoll ET` 单 Reactor、`eventfd` 跨线程唤醒、`timerfd` 超时、`signalfd` 优雅停止、非阻塞 TCP、严格 HTTP/1.1、固定线程池与有界背压。
+- **双业务独立接入**：分别通过 Adapter 接入 PTV2 焊后焊缝分割和 WeldAgent 焊前建系/焊接特征计算，使用异步 Job、状态轮询和结构化结果，两个业务不自动串联。
+- **浏览器分析闭环**：提供同域 Web 页面，支持本地点云上传、任务进度查询、焊缝分割叠加、起止点/拐点/坐标轴显示及输出 Artifact 下载。
+- **数据与进程边界**：使用 SHA-256、严格 manifest、canonical path、symlink/root-escape 防护和结果白名单；外部程序不经 Shell 调用，并限制超时、输出与临时目录。
+- **可观测与扩展**：提供异步有界日志、`/health`、`/metrics`、诊断接口，以及静态插件和稳定 C ABI 动态插件运行时。
+- **工程验证**：覆盖 Windows/Linux Debug/Release、GitHub Actions、ASan/UBSan、CTest 连续 50 次、HTTP/Job 压力与真实 AI 延迟；12 小时双业务 soak 共 720 个作业全部成功。
+
+**技术栈：** C++17 · Linux epoll/timerfd/signalfd · HTTP/1.1 · CMake · GoogleTest/CTest · Python Benchmark · WebGL2 · TensorRT/WeldAgent Adapter
+
+[查看框架、Web UI 与性能基准 →](https://github.com/realme-max/IndustrialAIServiceFramework)
+
 ## 能力主线
 
 - **工业三维视觉**：点云预处理、语义分割、几何特征提取与结果验证。
 - **模型工程化部署**：PyTorch 模型导出、ONNX 图检查、TensorRT 插件与推理基线验证。
-- **机器人焊接软件**：Qt/C++ 工具接入、任务状态管理、异常处理、结果审查与报告生成。
-- **Agent 工程**：状态图编排、只读工具调用、证据优先问答、人工检查点和全流程追踪。
+- **高性能 C++ 服务**：Linux Reactor、非阻塞 TCP、HTTP/1.1、定时器、线程池、有界队列与背压。
+- **工业 AI 应用平台**：Artifact 管理、异步 Job、进程隔离、算法 Adapter、浏览器上传与 WebGL2 可视化。
+- **机器人焊接与 Agent**：焊前建系、焊接特征计算、状态图编排、证据优先评审与安全边界。
+- **工程质量与性能**：跨平台构建、CI、Sanitizer、重复回归、压力/性能基准与长时间稳定性验证。
 
-> 两个仓库目前相互独立：PTV2-WeldSeg-Deployment 聚焦点云分割与推理部署，weld_agent 聚焦焊接任务编排与可信证据链。
+> 三个仓库职责清晰：PTV2-WeldSeg-Deployment 聚焦焊后点云分割与推理部署，weld_agent 聚焦焊前建系、焊接特征与可信任务编排，IndustrialAIServiceFramework 负责以统一 HTTP/Web 运行平台承载两条相互独立的业务链路。
